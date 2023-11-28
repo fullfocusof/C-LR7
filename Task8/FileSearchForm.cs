@@ -20,26 +20,24 @@ namespace Task8
 
         private void execButton_Click(object sender, EventArgs e)
         {
-            comboBoxResult.Items.Clear();
+            labelResult.Text = string.Empty;
+            comboBoxFiles.Items.Clear();
 
             DirectoryInfo DI = new DirectoryInfo(textBoxInput.Text);
             if (DI.Exists)
             {
-                FileInfo[] FIs = DI.GetFiles();
+                SearchOption SO = SearchOption.TopDirectoryOnly;
 
                 if (checkBoxCond.Checked)
                 {
-                    DirectoryInfo[] DIs = DI.GetDirectories();
-
-                    foreach (DirectoryInfo dir in DIs)
-                    {
-                        comboBoxResult.Items.Add("*dir* " + dir.Name);
-                    }              
+                    SO = SearchOption.AllDirectories;
                 }
 
+                FileInfo[] FIs = DI.GetFiles(textBoxInputFile.Text, SO);
+                labelResult.Text = "Найдено файлов: " + FIs.Length + "\n";
                 foreach (FileInfo file in FIs)
                 {
-                    comboBoxResult.Items.Add("*file* " + file.Name);
+                    comboBoxFiles.Items.Add(file.FullName);
                 }
             }
             else

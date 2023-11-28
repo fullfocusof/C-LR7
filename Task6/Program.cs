@@ -20,7 +20,7 @@ namespace Task6
                 FileInfo[] FIs = DI.GetFiles();
                 foreach (FileInfo file in FIs)
                 {
-                    string newPath = file.CreationTime.Date.ToShortDateString();
+                    string newPath = file.LastWriteTime.Date.ToShortDateString();
                     DI.CreateSubdirectory(newPath);
                     file.MoveTo(path + "/" + newPath + "//" + file.Name);           
                 }

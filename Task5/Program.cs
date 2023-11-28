@@ -10,28 +10,33 @@ namespace Task5
 {
     internal class Program
     {
+        static void DirContent(DirectoryInfo DI, string path, string indent = "")
+        {
+            FileInfo[] FIs = DI.GetFiles();
+            foreach (FileInfo file in FIs)
+            {
+                Console.WriteLine(indent + "Файл: " + file.Name);
+            }
+
+            DirectoryInfo[] DIs = DI.GetDirectories();
+            foreach (DirectoryInfo dir in DIs)
+            {
+                Console.WriteLine(indent + "Каталог: " + dir.Name);
+                DirContent(dir, dir.FullName, indent + "  ");
+            }
+        }
+
+
         static void Main(string[] args)
         {
             Console.WriteLine("Укажите путь к каталогу");
             string path = Console.ReadLine();
+            Console.WriteLine();
 
             DirectoryInfo DI = new DirectoryInfo(path);
             if(DI.Exists)
             {
-                DirectoryInfo[] DIs = DI.GetDirectories();
-                FileInfo[] FIs = DI.GetFiles();
-
-                Console.Clear();
-                Console.WriteLine("Список каталогов:");
-                foreach (DirectoryInfo dir in DIs)
-                {
-                    Console.WriteLine("-" + dir.Name);
-                }
-                Console.WriteLine("\nСписок файлов:");
-                foreach (FileInfo file in FIs)
-                {
-                    Console.WriteLine("-" + file.Name);
-                }
+                DirContent(DI, path);
             }
             else
             {
